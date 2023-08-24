@@ -1,12 +1,13 @@
 from datetime import datetime
 from typing import Annotated
-from fastapi import Depends, Request
-from jose import jwt, JWTError
 
-from app.users.dao import UsersDAO
+from fastapi import Depends, Request
+from jose import JWTError, jwt
+
 from app.config import settings
-from app.users.models import Users
 from app.users import exceptions
+from app.users.dao import UsersDAO
+from app.users.models import Users
 
 
 def get_token(request: Request):
@@ -16,13 +17,9 @@ def get_token(request: Request):
     return token
 
 
-async def get_current_user(
-        token: Annotated[str, Depends(get_token)]
-) -> Users | None:
+async def get_current_user(token: Annotated[str, Depends(get_token)]) -> Users | None:
     try:
-        payload = jwt.decode(
-            token, settings.SECRET_KEY, settings.ALGORITHM
-        )
+        payload = jwt.decode(token, settings.SECRET_KEY, settings.ALGORITHM)
     except JWTError:
         raise exceptions.InvalidTokenFormatException
     expire: str = payload.get("exp")

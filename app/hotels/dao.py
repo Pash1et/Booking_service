@@ -48,6 +48,7 @@ class HotelDAO(BaseDAO):
                 )
                 .group_by(cls.model.rooms_quantity, Rooms.hotel_id)
             ).cte("rooms_left")
+
             get_hotels = (
                 select(
                     cls.model.__table__.columns,

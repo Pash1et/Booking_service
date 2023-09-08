@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+
+  postgresql:
+    container_name: db
+    image: postgres:15.0-alpine
+    volumes:
+      - dbdata:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+
+  backend:
+    container_name: app
+    build: 
+      context: .
+    restart: on-failure
+    entrypoint: ["sh", "run.sh"]
+    depends_on:
+      - postgresql
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+
+volumes:
+  dbdata:

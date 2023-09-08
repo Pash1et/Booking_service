@@ -24,5 +24,10 @@ services:
     ports:
       - 8000:8000
 
+  redis:
+    container_name: redis
+    image: redis:6.2-alpine
+    restart: on-failure
+
 volumes:
   dbdata:

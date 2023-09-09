@@ -27,11 +27,35 @@ services:
     image: redis:6.2-alpine
     restart: on-failure
 
+  celery:
+    container_name: celery
+    build:
+      context: .
+    restart: on-failure
+    command: celery -A app.tasks.celery:celery worker -l INFO
+    depends_on:
+      - redis
+    env_file:
+      - .env
+
+  flower:
+    container_name: flower
+    build:
+      context: .
+    restart: on-failure
+    command: celery -A app.tasks.celery:celery flower -l INFO
+    depends_on:
+      - celery
+    env_file:
+      - .env
+
   nginx:
     container_name: nginx
     image: nginx:latest
     volumes:
       - ./infra/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - backend
     ports:
       - 80:80
 

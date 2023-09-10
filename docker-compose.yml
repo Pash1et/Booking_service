@@ -11,6 +11,14 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
 
+  postgresql_test:
+    container_name: test_db
+    image: postgres:15.0-alpine
+    environment:
+      POSTGRES_DB: ${TEST_DB_NAME}
+      POSTGRES_USER: ${TEST_DB_USER}
+      POSTGRES_PASSWORD: ${TEST_DB_PASS}
+
   backend:
     container_name: app
     build: 

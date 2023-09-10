@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -19,6 +20,11 @@ class Settings(BaseSettings):
     SMTP_PORT: int
     SMTP_USER: str
     SMTP_PASS: str
+
+    ADMIN_EMAIL: str
+
+    USER: str = Field(default="user")
+    ADMIN: str = Field(default="admin")
 
     @property
     def REDIS_URL(self):

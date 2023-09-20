@@ -4,6 +4,7 @@ services:
   postgresql:
     container_name: db
     image: postgres:15.0-alpine
+    restart: always
     volumes:
       - dbdata:/var/lib/postgresql/data/
     environment:
@@ -15,7 +16,7 @@ services:
     container_name: app
     build: 
       context: .
-    restart: on-failure
+    restart: always
     entrypoint: ["sh", "infra/run.sh"]
     depends_on:
       - postgresql
@@ -25,33 +26,34 @@ services:
   redis:
     container_name: redis
     image: redis:6.2-alpine
-    restart: on-failure
+    restart: always
 
   celery:
     container_name: celery
     build:
       context: .
-    restart: on-failure
+    restart: always
     command: celery -A app.tasks.celery:celery worker -l INFO
     depends_on:
       - redis
     env_file:
       - .env
 
-  flower:
-    container_name: flower
-    build:
-      context: .
-    restart: on-failure
-    command: celery -A app.tasks.celery:celery flower -l INFO
-    depends_on:
-      - celery
-    env_file:
-      - .env
+  # flower:
+  #   container_name: flower
+  #   build:
+  #     context: .
+  #   restart: on-failure
+  #   command: celery -A app.tasks.celery:celery flower -l INFO
+  #   depends_on:
+  #     - celery
+  #   env_file:
+  #     - .env
 
   nginx:
     container_name: nginx
     image: nginx:latest
+    restart: always
     volumes:
       - ./infra/nginx.conf:/etc/nginx/nginx.conf
     depends_on:

@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     TEST_DB_NAME: str = Field(default="postgres_test")
 
     SECRET_KEY: str = Field(default="9e0a6b826077929f9a2357bfc2ec945ceecd1df7aad183524f291592cbd6204d")
-    ALGORITHM: str = Field(default="HS526")
+    ALGORITHM: str = Field(default="HS256")
     EXPIRE: str = Field(default=30)
 
     REDIS_HOST: str = Field(default="localhost")

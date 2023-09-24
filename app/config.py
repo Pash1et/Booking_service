@@ -6,31 +6,31 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     MODE: Literal["DEV", "PROD", "TEST"]
 
-    DB_HOST: str
-    DB_PORT: int
-    DB_USER: str
-    DB_PASS: str
-    DB_NAME: str
+    DB_HOST: str = Field(default="localhost")
+    DB_PORT: int = Field(default=5432)
+    DB_USER: str = Field(default="postgres")
+    DB_PASS: str = Field(default="postgres")
+    DB_NAME: str = Field(default="postgres")
 
-    TEST_DB_HOST: str
-    TEST_DB_PORT: int
-    TEST_DB_USER: str
-    TEST_DB_PASS: str
-    TEST_DB_NAME: str
+    TEST_DB_HOST: str = Field(default="localhost")
+    TEST_DB_PORT: int = Field(default=5433)
+    TEST_DB_USER: str = Field(default="postgres_test")
+    TEST_DB_PASS: str = Field(default="postgres_test")
+    TEST_DB_NAME: str = Field(default="postgres_test")
 
-    SECRET_KEY: str
-    ALGORITHM: str
-    EXPIRE: str
+    SECRET_KEY: str = Field(default="9e0a6b826077929f9a2357bfc2ec945ceecd1df7aad183524f291592cbd6204d")
+    ALGORITHM: str = Field(default="HS526")
+    EXPIRE: str = Field(default=30)
 
-    REDIS_HOST: str
-    REDIS_PORT: int
+    REDIS_HOST: str = Field(default="localhost")
+    REDIS_PORT: int = Field(default=6379)
 
-    SMTP_HOST: str
-    SMTP_PORT: int
-    SMTP_USER: str
-    SMTP_PASS: str
+    SMTP_HOST: str = Field(default="smtp.smtp.ru")
+    SMTP_PORT: int = Field(default=465)
+    SMTP_USER: str = Field(default="user@user.com")
+    SMTP_PASS: str = Field(default="UserPassword")
 
-    ADMIN_EMAIL: str
+    ADMIN_EMAIL: str = Field(default="admin@admin.com")
 
     USER: str = Field(default="user")
     ADMIN: str = Field(default="admin")

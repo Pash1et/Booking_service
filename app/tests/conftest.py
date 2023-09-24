@@ -3,7 +3,6 @@ import json
 from datetime import datetime
 
 import pytest
-from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from sqlalchemy import insert
 
@@ -62,6 +61,21 @@ def event_loop(request):
 async def async_client():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as client:
         yield client
+
+
+@pytest.fixture(scope="session")
+async def auth_async_client():
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as auth_client:
+        await auth_client.post(
+            "/auth/login",
+            json={
+                "email": "user1@user.com",
+                "password": "user1password",
+            },
+        )
+
+        assert auth_client.cookies["booking_access_token"]
+        yield auth_client
 
 
 @pytest.fixture(scope="session")

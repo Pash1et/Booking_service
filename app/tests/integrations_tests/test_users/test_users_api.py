@@ -30,19 +30,18 @@ async def test_register_user(
 
 
 @pytest.mark.parametrize(
-    "email,password,status_code,cookies",
+    "email,password,status_code",
     [
-        ("user1@user.com", "user1password", status.HTTP_200_OK, 1),
-        ("user2@user.com", "user2password", status.HTTP_200_OK, 1),
-        ("unknown@user.com", "userpassword", status.HTTP_401_UNAUTHORIZED, 0),
-        ("", "userpassword", status.HTTP_422_UNPROCESSABLE_ENTITY, 0),
+        ("user1@user.com", "user1password", status.HTTP_200_OK),
+        ("user2@user.com", "user2password", status.HTTP_200_OK),
+        ("unknown@user.com", "userpassword", status.HTTP_401_UNAUTHORIZED),
+        ("", "userpassword", status.HTTP_422_UNPROCESSABLE_ENTITY),
     ],
 )
 async def test_login_user(
     email: EmailStr,
     password: str,
     status_code: status,
-    cookies: int,
     async_client: AsyncClient,
 ):
     response = await async_client.post(
@@ -54,10 +53,11 @@ async def test_login_user(
     )
 
     assert response.status_code == status_code
-    assert len(response.cookies) == cookies
+    assert async_client.cookies["booking_access_token"]
 
 
 async def test_logout_user(async_client: AsyncClient):
     response = await async_client.post("/auth/logout")
 
     assert response.status_code == status.HTTP_200_OK
+    assert "booking_access_token" not in async_client.cookies

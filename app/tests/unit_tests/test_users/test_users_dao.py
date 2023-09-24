@@ -23,8 +23,14 @@ async def test_find_user_by_id(user_id: int, email: EmailStr, exists: bool):
         assert user is None
 
 
-async def test_find_all_users():
+@pytest.mark.parametrize(
+    "index,email",
+    [
+        (0, "user1@user.com"),
+        (1, "user2@user.com"),
+    ],
+)
+async def test_find_all_users(index: int, email: EmailStr):
     users = await UsersDAO.find_all()
 
-    assert users[0]["email"] == "user1@user.com"
-    assert users[1]["email"] == "user2@user.com"
+    assert users[index]["email"] == email

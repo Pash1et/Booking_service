@@ -10,6 +10,8 @@ from app.tasks.tasks import send_booking_confirm_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
 
+from app.config import settings
+
 router = APIRouter(
     prefix="/bookings",
     tags=["Бронирования"],
@@ -31,8 +33,9 @@ async def add_booking(
     date_to: date,
 ) -> SBooking:
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
-    booking_dict = SBooking.model_validate(booking).model_dump()
-    send_booking_confirm_email.delay(booking_dict, user.email)
+    if settings.MODE in ["DEV", "PROD"]:
+        booking_dict = SBooking.model_validate(booking).model_dump()
+        send_booking_confirm_email.delay(booking_dict, user.email)
     if not booking:
         raise exceptions.AllRoomsOccupiedException
     return booking

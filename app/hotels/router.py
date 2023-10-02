@@ -1,7 +1,6 @@
 from datetime import date
 
 from fastapi import APIRouter
-
 from fastapi_cache.decorator import cache
 
 from app.hotels.dao import HotelDAO

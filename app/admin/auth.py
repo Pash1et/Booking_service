@@ -1,3 +1,4 @@
+from fastapi import status
 from jose import jwt
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
@@ -6,8 +7,6 @@ from starlette.responses import RedirectResponse
 from app.config import settings
 from app.users.auth import auth_user, create_access_token
 from app.users.dependencies import get_current_user
-
-from fastapi import status
 
 
 class AdminAuth(AuthenticationBackend):

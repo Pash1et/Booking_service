@@ -14,7 +14,8 @@ def create_booking_confirm_template(booking: dict, email_to: EmailStr):
     email.set_content(
         f"""
         <h1>Подтвердите бронирование</h1>
-        Вы забронировали отель {booking["total_days"]} дней за {booking["total_cost"]} рублей
+        Вы забронировали отель {booking["total_days"]} дней
+        за {booking["total_cost"]} рублей
         """,
         subtype="html",
     )

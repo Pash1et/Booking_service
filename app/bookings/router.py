@@ -6,11 +6,10 @@ from fastapi import APIRouter, Depends, status
 from app.bookings import exceptions
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBooking, SGetBooking
+from app.config import settings
 from app.tasks.tasks import send_booking_confirm_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
-
-from app.config import settings
 
 router = APIRouter(
     prefix="/bookings",

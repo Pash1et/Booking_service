@@ -14,7 +14,7 @@ class Hotels(Base):
     rooms_quantity: Mapped[int] = mapped_column(Integer, nullable=False)
     image_id: Mapped[int] = mapped_column(Integer)
 
-    rooms: Mapped[list["Rooms"]] = relationship(back_populates="hotel")
+    rooms: Mapped[list["Rooms"]] = relationship(back_populates="hotel")  # noqa
 
     def __str__(self) -> str:
         return self.name

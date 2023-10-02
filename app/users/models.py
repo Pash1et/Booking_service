@@ -11,7 +11,7 @@ class Users(Base):
     email: Mapped[str] = mapped_column(String, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String, nullable=False)
 
-    bookings: Mapped[list["Bookings"]] = relationship(back_populates="user")
+    bookings: Mapped[list["Bookings"]] = relationship(back_populates="user")  # noqa
 
     def __str__(self) -> str:
         return self.email

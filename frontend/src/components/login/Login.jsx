@@ -3,7 +3,6 @@ import axios from 'axios';
 import s from "./Login.module.css";
 
 export default function Login() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -18,9 +17,11 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post('http://api.solved-task.ru/auth/login', { email, password })
+        axios.post('http://api.solved-task.ru/auth/login',
+            { email, password }, { withCredentials: true }
+            )
             .then((response) => {
-                console.log("SUCCESS LOGIN")
+                console.log(response.status)
             })
             .catch((err) => {
                 console.error("Error: ", err)
@@ -35,11 +36,11 @@ export default function Login() {
                 </div>
                 <form className={s.login_form} onSubmit={handleSubmit}>
                     <label for="email">
-                        Email:
+                        Email
                         <input type="email" value={email} onChange={handleEmailChange} />
                     </label>
                     <label for="password">
-                        Password:
+                        Password
                         <input type="password" value={password} onChange={handlePasswordChange} />
                     </label>
                     <button type="submit">

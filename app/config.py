@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    MODE: Literal["DEV", "PROD", "TEST"]
+    MODE: Literal["DEV", "PROD", "TEST"] = Field(default="DEV")
 
     DB_HOST: str = Field(default="localhost")
     DB_PORT: int = Field(default=5432)

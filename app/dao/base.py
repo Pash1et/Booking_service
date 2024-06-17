@@ -1,9 +1,12 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Type
+
+from app.database import Base
 
 
 class BaseDAO:
-    model = None
+    model: Type[Base] = None
 
     @classmethod
     async def find_all(cls, session: AsyncSession, **filter_by):
@@ -12,8 +15,8 @@ class BaseDAO:
         return result.scalars().all()
 
     @classmethod
-    async def find_one_or_none(cls, session: AsyncSession):
-        query = select(cls.model)
+    async def find_one_or_none(cls, session: AsyncSession, **filter_by):
+        query = select(cls.model).filter_by(**filter_by)
         result = await session.execute(query)
         return result.scalar_one_or_none()
 

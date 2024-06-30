@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 
 class SBooking(BaseModel):
@@ -13,5 +13,18 @@ class SBooking(BaseModel):
     price: Decimal
     total_days: int
     total_cost: int
+    image_id: int
+    name: str
+    description: str
+    services: list
 
-    model_config = ConfigDict(from_attributes=True)
+
+class SBookingCreate(BaseModel):
+    id: int
+    user_id: int
+    room_id: int
+    date_from: date
+    date_to: date
+    price: Decimal
+    total_days: int
+    total_cost: int

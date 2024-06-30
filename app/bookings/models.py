@@ -1,9 +1,9 @@
 from datetime import date
 from decimal import Decimal
 
-
-from sqlalchemy import Computed, Integer, ForeignKey, Date, DECIMAL
+from sqlalchemy import DECIMAL, Computed, Date, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
+
 from app.database import Base
 
 

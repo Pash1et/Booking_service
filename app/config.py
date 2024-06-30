@@ -17,5 +17,8 @@ class Settings(BaseSettings):
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
+    SECRET_KEY: str
+    ALGORITHM: str
+
 
 settings = Settings()

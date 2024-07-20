@@ -1,11 +1,12 @@
 from uuid import UUID
-from pydantic import EmailStr
-from jinja2 import Environment, FileSystemLoader
 
-from app.smtp.service import EmailService
-from app.tasks.celery_app import celery
+from jinja2 import Environment, FileSystemLoader
+from pydantic import EmailStr
+
 from app.bookings.dao import BookingDAO
 from app.database import sync_session_maker
+from app.smtp.service import EmailService
+from app.tasks.celery_app import celery
 
 
 @celery.task

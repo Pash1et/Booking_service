@@ -2,8 +2,8 @@ from datetime import date
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.hotels.dao import HotelDAO
 from app.hotels import exceptions as hotels_ex
+from app.hotels.dao import HotelDAO
 from app.rooms import exceptions as rooms_ex
 from app.rooms.dao import RoomDAO
 

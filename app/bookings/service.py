@@ -2,11 +2,11 @@ from datetime import date
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.bookings import exceptions as ex
 from app.bookings.dao import BookingDAO
 from app.rooms.dao import RoomDAO
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.models import User
-from app.bookings import exceptions as ex
 
 
 class BookingService:

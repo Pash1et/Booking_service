@@ -14,7 +14,36 @@ services:
       POSTGRES_PORT: ${DB_PORT}
     ports:
       - 5432:5432
+  
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
 
+  celery_worker:
+    container_name: celery_worker
+    build:
+      context: .
+    command: sh -c "celery --app=app.tasks.celery_app:celery worker -l INFO"
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  backend:
+    container_name: backend
+    build:
+      context: .
+    command: sh -c "alembic upgrade heads && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgresql
+      - redis
+    ports:
+      - 8001:8000
 
 volumes:
   dbdata:

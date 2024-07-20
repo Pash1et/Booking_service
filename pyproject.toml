@@ -15,6 +15,10 @@ alembic = "^1.13.1"
 pydantic-settings = "^2.3.3"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 pyjwt = "^2.8.0"
+celery = "^5.4.0"
+redis = "^5.0.7"
+psycopg2-binary = "^2.9.9"
+gunicorn = "^22.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

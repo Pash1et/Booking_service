@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение бронирования</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .content p {
+            color: #555555;
+            line-height: 1.6;
+        }
+        .details {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+        }
+        .details h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            color: #555555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Подтверждение бронирования</h1>
+        </div>
+        <div class="content">
+            <h2>Уважаемый гость!</h2>
+            <p>Мы рады подтвердить ваше бронирование в нашем отеле. Благодарим вас за выбор нашего отеля для вашего пребывания. Ниже приведена информация о вашем бронировании:</p>
+            <div class="details">
+                <h3>Детали бронирования</h3>
+                <p><strong>Отель:</strong> {{ hotel_name }}</p>
+                <p><strong>Комната:</strong> {{ room_name }}</p>
+                <p><strong>Стоимость:</strong> {{ total_cost }} руб.</p>
+                <p><strong>Количество дней:</strong> {{ total_days }}</p>
+            </div>
+            <p>Если у вас есть вопросы или вам требуется дополнительная информация, пожалуйста, свяжитесь с нами.</p>
+            <p>С уважением, <br> Команда примерного сервиса бронирования</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Пример сервиса бронирования :) Все права защищены.</p>
+        </div>
+    </div>
+</body>
+</html>

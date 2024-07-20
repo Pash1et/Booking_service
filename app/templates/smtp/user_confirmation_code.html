@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Код подтверждения</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .content p {
+            color: #555555;
+            line-height: 1.6;
+        }
+        .code {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            color: #555555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Код подтверждения</h1>
+        </div>
+        <div class="content">
+            <h2>Уважаемый пользователь!</h2>
+            <p>Для подтверждения регистриации, пожалуйста, используйте следующий код:</p>
+            <div class="code">
+                {{ confirmation_code }}
+            </div>
+            <p>Если вы не запрашивали этот код, просто проигнорируйте это сообщение.</p>
+            <p>С уважением, <br> Команда примерного сервиса бронирования</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Пример сервиса бронирования :) Все права защищены.</p>
+        </div>
+    </div>
+</body>
+</html>

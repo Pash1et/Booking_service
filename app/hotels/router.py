@@ -5,12 +5,10 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_async_session
-from app.hotels import exceptions as hotels_ex
 from app.hotels import schemas as hotels_sh
 from app.hotels.dao import HotelDAO
-from app.rooms import exceptions as rooms_ex
+from app.hotels.service import HotelService
 from app.rooms import schemas as rooms_sh
-from app.rooms.dao import RoomDAO
 
 router = APIRouter(
     prefix="/hotels",
@@ -19,16 +17,15 @@ router = APIRouter(
 
 
 @router.get("/{location}", status_code=status.HTTP_200_OK)
-async def get_hotels(
+async def get_hotels_by_location(
     session: Annotated[AsyncSession, Depends(get_async_session)],
     location: str,
     date_from: date,
     date_to: date
 ) -> list[hotels_sh.SHotelList]:
-    hotels = await HotelDAO.find_all(session, location, date_from, date_to)
-    if not hotels:
-        raise hotels_ex.HotelsLocationNotFoundException
-    return hotels
+    return await HotelService.get_hotels_by_location(
+        session, location, date_from, date_to,
+    )
 
 
 @router.get("/id/{hotel_id}", status_code=status.HTTP_200_OK)
@@ -36,10 +33,7 @@ async def get_hotel_by_id(
     session: Annotated[AsyncSession, Depends(get_async_session)],
     hotel_id: int,
 ) -> hotels_sh.SHotel:
-    hotel = await HotelDAO.find_by_id(session, model_id=hotel_id)
-    if not hotel:
-        raise hotels_ex.HotelIdNotFoundException
-    return hotel
+    return await HotelService.get_hotel_by_id(session, hotel_id)
 
 
 @router.get("/{hotel_id}/rooms", status_code=status.HTTP_200_OK)
@@ -49,7 +43,13 @@ async def get_hotel_rooms(
     date_from: date,
     date_to: date,
 ) -> list[rooms_sh.SHotelRoomsOut]:
-    rooms = await RoomDAO.find_all(session, hotel_id, date_from, date_to)
-    if not rooms:
-        raise rooms_ex.RoomsNotFoundAtThisHotelId
-    return rooms
+    return await HotelService.get_hotel_rooms(
+        session, hotel_id, date_from, date_to
+    )
+
+
+@router.get("", status_code=status.HTTP_200_OK)
+async def get_all_hotels(
+    session: Annotated[AsyncSession, Depends(get_async_session)],
+) -> list[hotels_sh.SHotel]:
+    return await HotelDAO.find_all(session)

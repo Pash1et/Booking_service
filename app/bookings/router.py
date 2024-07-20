@@ -1,11 +1,12 @@
 from datetime import date
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.bookings import schemas as sh
 from app.bookings.dao import BookingDAO
+from app.bookings.service import BookingService
 from app.database import get_async_session
 from app.users.dependencies import get_current_user
 from app.users.models import User
@@ -24,12 +25,8 @@ async def add_booking(
     date_to: date,
     room_id: int,
 ) -> sh.SBookingCreate:
-    return await BookingDAO.add_one(
-        session,
-        user_id=current_user.id,
-        room_id=room_id,
-        date_from=date_from,
-        date_to=date_to,
+    return await BookingService.add_booking(
+        session, current_user, date_from, date_to, room_id,
     )
 
 
@@ -47,12 +44,6 @@ async def delete_booking(
     current_user: Annotated[User, Depends(get_current_user)],
     booking_id: int,
 ):
-    booking = await BookingDAO.find_one_or_none(
-        session, id=booking_id, user_id=current_user.id
+    return await BookingService.delete_booking(
+        session, current_user, booking_id,
     )
-    if not booking:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND
-        )
-    await BookingDAO.delete_one(session, booking_id)
-    return {"detail": "Success"}

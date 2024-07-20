@@ -2,10 +2,12 @@ from datetime import date
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm.session import Session
 
 from app.bookings import exceptions as ex
 from app.bookings.models import Booking
 from app.dao.base import BaseDAO
+from app.hotels.models import Hotel
 from app.rooms.models import Room
 
 
@@ -74,3 +76,21 @@ class BookingDAO(BaseDAO):
         )
         bookings = await session.execute(get_bookings)
         return bookings.mappings().all()
+
+    @classmethod
+    def find_hotel_info_by_booking_id_sync(
+        cls, session: Session, booking_id: int
+    ):
+        query = (
+            select(
+                Hotel.name.label("hotel_name"),
+                Room.name.label("room_name"),
+                Booking.total_cost,
+                Booking.total_days
+            ).select_from(Booking)
+            .outerjoin(Room, Booking.room_id == Room.id)
+            .outerjoin(Hotel, Room.hotel_id == Hotel.id)
+            .where(Booking.id == booking_id)
+        )
+        res = session.execute(query)
+        return res.mappings().one()

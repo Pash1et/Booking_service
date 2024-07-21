@@ -23,6 +23,8 @@ class ConfirmCode(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     code: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), default=uuid.uuid4,
-        nullable=False, unique=True,
+        UUID(as_uuid=True),
+        default=uuid.uuid4,
+        nullable=False,
+        unique=True,
     )

@@ -23,7 +23,13 @@ gunicorn = "^22.0.0"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
+black = "^24.4.2"
+flake8 = "^7.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]

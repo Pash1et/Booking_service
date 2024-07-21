@@ -33,23 +33,20 @@ class UserService:
     async def login_user(
         cls, session: AsyncSession, user_data: SUserAuth, response: Response
     ):
-        user = await authenticate_user(
-            session, user_data.email, user_data.password
-        )
+        user = await authenticate_user(session, user_data.email, user_data.password)
         if not user:
             raise ex.NotFoundUserException
         if not user.is_active:
             raise ex.UserIsNotActiavate
         access_token = create_access_token({"sub": str(user.id)})
-        response.set_cookie(
-            key="access_token", value=access_token, httponly=True
-        )
+        response.set_cookie(key="access_token", value=access_token, httponly=True)
         return user
 
     @classmethod
     async def user_confirm_account(cls, session: AsyncSession, code: UUID):
         check_code = await UserConfirmCodeDAO.find_one_or_none(
-            session, code=code,
+            session,
+            code=code,
         )
         if not check_code:
             raise ex.UserConfirmationCodeNotFound

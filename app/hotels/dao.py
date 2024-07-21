@@ -40,7 +40,9 @@ class HotelDAO(BaseDAO):
         get_hotels = (
             select(
                 Hotel.__table__.columns,
-                (Hotel.rooms_quantity - func.count(booked_rooms.c.hotel_id)).label("rooms_left")
+                (Hotel.rooms_quantity - func.count(booked_rooms.c.hotel_id)).label(
+                    "rooms_left"
+                )
             )
             .outerjoin(booked_rooms, Hotel.id == booked_rooms.c.hotel_id)
             .where(Hotel.location.like(f"%{location}%"))

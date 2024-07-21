@@ -18,8 +18,6 @@ class EmailService:
 
     @classmethod
     def send_mail(cls, email: EmailMessage):
-        with smtplib.SMTP_SSL(
-            settings.SMTP_HOST, settings.SMTP_PORT
-        ) as server:
+        with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
             server.login(settings.SMTP_USER, settings.SMTP_PASS)
             server.send_message(email)

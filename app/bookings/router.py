@@ -26,7 +26,11 @@ async def add_booking(
     room_id: int,
 ) -> sh.SBookingCreate:
     return await BookingService.add_booking(
-        session, current_user, date_from, date_to, room_id,
+        session,
+        current_user,
+        date_from,
+        date_to,
+        room_id,
     )
 
 
@@ -45,5 +49,7 @@ async def delete_booking(
     booking_id: int,
 ):
     return await BookingService.delete_booking(
-        session, current_user, booking_id,
+        session,
+        current_user,
+        booking_id,
     )

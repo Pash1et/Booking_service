@@ -44,6 +44,7 @@ class BookingService:
             date_to=date_to,
         )
         send_booking_confirmation_email.delay(
-            new_booking.id, current_user.email,
+            new_booking.id,
+            current_user.email,
         )
         return new_booking

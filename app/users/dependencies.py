@@ -12,15 +12,13 @@ from app.users.dao import UserDAO
 def get_token(request: Request):
     access_token = request.cookies.get("access_token")
     if not access_token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     return access_token
 
 
 async def get_current_user(
     session: Annotated[AsyncSession, Depends(get_async_session)],
-    token: Annotated[str, Depends(get_token)]
+    token: Annotated[str, Depends(get_token)],
 ):
     credential_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

@@ -23,22 +23,24 @@ class BookingDAO(BaseDAO):
         date_from: date,
         date_to: date,
     ):
-        booked_rooms = select(Booking).where(
-            (Booking.room_id == room_id) & (
-                (
-                    (Booking.date_from >= date_from) &
-                    (Booking.date_from <= date_to)
-                ) | (
-                    (Booking.date_from <= date_from) &
-                    (Booking.date_to > date_from)
+        booked_rooms = (
+            select(Booking)
+            .where(
+                (Booking.room_id == room_id) & (
+                    (
+                        (Booking.date_from >= date_from) &
+                        (Booking.date_from <= date_to)
+                    ) | (
+                        (Booking.date_from <= date_from) &
+                        (Booking.date_to > date_from)
+                    )
                 )
-            )
-        ).cte("booked_rooms")
+            ).cte("booked_rooms")
+        )
 
         get_quantity_available_rooms = (
             select(
-                (Room.quantity - func.count(booked_rooms.c.user_id))
-                .label("rooms_left")
+                (Room.quantity - func.count(booked_rooms.c.user_id)).label("rooms_left")
             )
             .outerjoin(booked_rooms, booked_rooms.c.room_id == Room.id)
             .where(Room.id == room_id)
@@ -71,23 +73,23 @@ class BookingDAO(BaseDAO):
                 Room.name,
                 Room.description,
                 Room.services,
-            ).outerjoin(Room, Booking.room_id == Room.id)
+            )
+            .outerjoin(Room, Booking.room_id == Room.id)
             .where(Booking.user_id == user_id)
         )
         bookings = await session.execute(get_bookings)
         return bookings.mappings().all()
 
     @classmethod
-    def find_hotel_info_by_booking_id_sync(
-        cls, session: Session, booking_id: int
-    ):
+    def find_hotel_info_by_booking_id_sync(cls, session: Session, booking_id: int):
         query = (
             select(
                 Hotel.name.label("hotel_name"),
                 Room.name.label("room_name"),
                 Booking.total_cost,
-                Booking.total_days
-            ).select_from(Booking)
+                Booking.total_days,
+            )
+            .select_from(Booking)
             .outerjoin(Room, Booking.room_id == Room.id)
             .outerjoin(Hotel, Room.hotel_id == Hotel.id)
             .where(Booking.id == booking_id)

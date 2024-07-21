@@ -1,22 +1,27 @@
+from typing import Literal
+
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
-    DB_NAME: str
-    DB_USER: str
-    DB_PASS: str
-    DB_HOST: str
-    DB_PORT: int
+    MODE: Literal["DEV", "TEST"] = Field(default="DEV")
 
-    SMTP_HOST: str
-    SMTP_PORT: int
-    SMTP_USER: str
-    SMTP_PASS: str
+    DB_NAME: str = Field(default="postgres")
+    DB_USER: str = Field(default="postgres")
+    DB_PASS: str = Field(default="postgres")
+    DB_HOST: str = Field(default="localhost")
+    DB_PORT: int = Field(default="5432")
 
-    REDIS_HOST: str
-    REDIS_PORT: int
+    SMTP_HOST: str = Field(default="smtp.gmail.com")
+    SMTP_PORT: int = Field(default="465")
+    SMTP_USER: str = Field(default="smtp_user")
+    SMTP_PASS: str = Field(default="smtp_pass")
+
+    REDIS_HOST: str = Field(default="localhost")
+    REDIS_PORT: int = Field(default="6379")
 
     @property
     def database_url(self):
@@ -34,12 +39,10 @@ class Settings(BaseSettings):
 
     @property
     def redis_url(self):
-        return (
-            f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}"
-        )
+        return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}"
 
-    SECRET_KEY: str
-    ALGORITHM: str
+    SECRET_KEY: str = Field(default="123")
+    ALGORITHM: str = Field(default="HS256")
 
 
 settings = Settings()

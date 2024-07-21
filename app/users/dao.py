@@ -14,11 +14,7 @@ class UserConfirmCodeDAO(BaseDAO):
 
     @classmethod
     async def create_confirm_code(cls, session: AsyncSession, user: User):
-        query = (
-            insert(ConfirmCode)
-            .values(user_id=user.id)
-            .returning(ConfirmCode)
-        )
+        query = insert(ConfirmCode).values(user_id=user.id).returning(ConfirmCode)
         result = await session.execute(query)
         await session.commit()
         return result.scalar()

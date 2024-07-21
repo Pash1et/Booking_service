@@ -20,7 +20,8 @@ class RoomDAO(BaseDAO):
         date_to: date,
     ):
         booked_rooms = (
-            select(Booking.room_id).outerjoin(Room, Booking.room_id == Room.id)
+            select(Booking.room_id)
+            .outerjoin(Room, Booking.room_id == Room.id)
             .where(
                 (Room.hotel_id == hotel_id) & (
                     (

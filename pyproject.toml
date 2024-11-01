@@ -19,6 +19,7 @@ celery = "^5.4.0"
 redis = "^5.0.7"
 psycopg2-binary = "^2.9.9"
 gunicorn = "^22.0.0"
+prometheus-fastapi-instrumentator = "^7.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

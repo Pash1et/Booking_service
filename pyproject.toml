@@ -20,6 +20,7 @@ redis = "^5.0.7"
 psycopg2-binary = "^2.9.9"
 gunicorn = "^22.0.0"
 prometheus-fastapi-instrumentator = "^7.0.0"
+python-multipart = "^0.0.17"
 
 
 [tool.poetry.group.dev.dependencies]
